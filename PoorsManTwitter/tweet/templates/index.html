@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poor Man's Twitter</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-uWxY/CJNBR+1zjPWmfnSnVxwRheevXITnMqoEIeG1LJrdI0GlVs/9cVSyPYXdcSF" crossorigin="anonymous">
+</head>
+<body>
+    <h1>Poor Man's Twitter</h1>
+    <div>
+        
+        <form action="" method="post" class="form-horizontal" id="form">
+            <div class="row m-2">
+                <div class="col-3 form-group">
+                    <label for="name">Username</label>
+                    <input type="text" name="name" id="name" placeholder="Enter your username" class="form-control">
+                </div>
+                <div class="col-3 form-group">
+                    <label for="tweet">Tweet</label>
+                    <input type="text" name="tweet" id="tweet" placeholder="Enter your tweet. 50 characters maximum" class="form-control">
+                </div>
+                <div class="col-3 form-group">
+                    <label for="btn">&nbsp;</label>
+                    <input name="btn" type="submit" value="Tweet" class="btn btn-primary d-block"/>
+                </div>
+            </div>
+            
+        </form>
+    </div>
+
+    <div>
+        <table class="table table-striped m-2">
+            <tr>
+                <th>Date</th>
+                <th>Name</th>
+                <th>Tweet</th>
+            </tr>
+            {% for tweet in tweets %}
+            <tr>
+                <td>{{ tweet.date}}</td>
+                <td>{{tweet.name}}</td>
+                <td>{{tweet.tweet}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+    <script>
+        let form = document.getElementById('form'); 
+                
+        form.addEventListener('submit', function(event) { 
+            event.preventDefault()
+                    
+            let data = new FormData(); 
+                    
+            data.append("name", document.getElementById('name').value)  
+            data.append("tweet", document.getElementById('tweet').value)
+            data.append("csrfmiddlewaretoken", '{{csrf_token}}') 
+                    
+            axios.post('', data) 
+            .then(res => alert("Form Submitted")) 
+            .catch(errors => console.log(errors)) 
+                
+        })
+                
+    </script>
+
+</body>
+</html>
